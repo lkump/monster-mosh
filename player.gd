@@ -2,9 +2,10 @@ extends CharacterBody2D
 
 
 const SPEED = 300.0
+signal existed(x_position,y_position)
 
 func _physics_process(delta: float) -> void:
-
+	
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var x_direction := Input.get_axis("left", "right")
@@ -23,3 +24,4 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.normalized() * SPEED
 		
 	move_and_slide()
+	existed.emit(position.x,position.y)
