@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 
 const SPEED = 300.0
-signal existed(x_position,y_position)
+signal existed(player_position)
 
 func _physics_process(delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
@@ -23,8 +23,8 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.normalized() * SPEED
 		
 	move_and_slide()
-	existed.emit(position.x,position.y)
+	existed.emit(position)
 
 
-func _on_existed(x_position: Variant, y_position: Variant) -> void:
-	print(x_position, " ", y_position)
+func _on_existed(player_position: Variant) -> void:
+	print("x: ", player_position.x, " y: ", player_position.y)
