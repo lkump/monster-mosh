@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 signal existed(player_position)
+signal attacked()
 
 func _physics_process(delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
@@ -24,3 +25,11 @@ func _physics_process(delta: float) -> void:
 		
 	move_and_slide()
 	existed.emit(position)
+	
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("attack"):
+		attacked.emit()
+	
+
+func _on_attacked() -> void:
+	print("attacked")
