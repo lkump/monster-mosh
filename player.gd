@@ -24,7 +24,3 @@ func _physics_process(delta: float) -> void:
 		
 	move_and_slide()
 	existed.emit(position)
-
-
-func _on_existed(player_position: Variant) -> void:
-	print("x: ", player_position.x, " y: ", player_position.y)
