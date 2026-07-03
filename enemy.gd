@@ -20,3 +20,7 @@ func _on_player_existed(player_position: Variant) -> void:
 	if position.distance_to(player_position) > 3:
 		velocity = target_position*SPEED
 		move_and_slide()
+	if target_position.x < 0:
+		$Sprite2D.flip_h = true
+	else:
+		$Sprite2D.flip_h = false
