@@ -11,5 +11,7 @@ position = Vector2(596, 325)
 [node name="Enemy" parent="." unique_id=335124755 instance=ExtResource("2_h2yge")]
 position = Vector2(364, 325)
 
+[node name="EnemySpawnTimer" type="Timer" parent="." unique_id=1482730202]
+
 [connection signal="attacked" from="Player" to="Player" method="_on_attacked"]
 [connection signal="existed" from="Player" to="Enemy" method="_on_player_existed"]
