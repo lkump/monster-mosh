@@ -2,12 +2,15 @@
 
 [ext_resource type="Texture2D" uid="uid://4m67v7bljneu" path="res://graphics/enemy.png" id="1_7k104"]
 [ext_resource type="Script" uid="uid://24m5tuqwwf5y" path="res://scripts/enemy.gd" id="1_md0e3"]
+[ext_resource type="Script" uid="uid://2mabn00iuak3" path="res://scripts/hit_area_2d.gd" id="3_4ra3w"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g4v7s"]
 radius = 11.0
 height = 64.0
 
 [node name="Enemy" type="CharacterBody2D" unique_id=335124755]
+collision_layer = 2
+collision_mask = 4
 script = ExtResource("1_md0e3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1453567473]
@@ -17,3 +20,10 @@ shape = SubResource("CapsuleShape2D_g4v7s")
 scale = Vector2(0.33, 0.33)
 texture = ExtResource("1_7k104")
 offset = Vector2(21, 0)
+
+[node name="HitArea2D" type="Area2D" parent="." unique_id=28542323]
+script = ExtResource("3_4ra3w")
+metadata/_custom_type_script = "uid://2mabn00iuak3"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea2D" unique_id=181939666]
+shape = SubResource("CapsuleShape2D_g4v7s")
