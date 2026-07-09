@@ -1,3 +1,6 @@
 [gd_scene format=3 uid="uid://3g6d4orcae1b"]
 
+[ext_resource type="Script" uid="uid://2mabn00iuak3" path="res://scripts/hit_area_2d.gd" id="1_ggb62"]
+
 [node name="HitArea2D" type="Area2D" unique_id=1055490839]
+script = ExtResource("1_ggb62")
