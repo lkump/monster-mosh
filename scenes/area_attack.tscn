@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://b6brr874yjdoy"]
 
-[ext_resource type="Script" uid="uid://cyi3ce1m4151n" path="res://area_attack.gd" id="1_6278o"]
-[ext_resource type="Texture2D" uid="uid://rayltxaqv0e" path="res://graphics/attack.png" id="1_bvipo"]
+[ext_resource type="Script" uid="uid://cyi3ce1m4151n" path="res://scripts/area_attack.gd" id="1_b5e2u"]
+[ext_resource type="Texture2D" uid="uid://rayltxaqv0e" path="res://graphics/attack.png" id="2_xigl1"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d0u6y"]
 radius = 11.0
 height = 60.0
 
 [node name="AreaAttack" type="AnimatableBody2D" unique_id=1974928267]
-script = ExtResource("1_6278o")
+script = ExtResource("1_b5e2u")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1798145745]
 
@@ -17,7 +17,7 @@ shape = SubResource("CapsuleShape2D_d0u6y")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1291842767]
 scale = Vector2(0.33, 0.33)
-texture = ExtResource("1_bvipo")
+texture = ExtResource("2_xigl1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=988987689]
 shape = SubResource("CapsuleShape2D_d0u6y")
