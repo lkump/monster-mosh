@@ -11,4 +11,10 @@ position = Vector2(281, 262)
 [node name="Player" parent="." unique_id=207911696 instance=ExtResource("1_0wfyh")]
 position = Vector2(569, 294)
 
+<<<<<<< HEAD:scenes/main.tscn
+=======
+[node name="EnemySpawnTimer" type="Timer" parent="." unique_id=1482730202]
+
+[connection signal="attacked" from="Player" to="Player" method="_on_attacked"]
+>>>>>>> ddfdd00737f97cc479121b0a0551801faac019dd:main.tscn
 [connection signal="existed" from="Player" to="Enemy" method="_on_player_existed"]
