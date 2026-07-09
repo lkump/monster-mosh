@@ -1,14 +1,22 @@
 [gd_scene format=3 uid="uid://eiqh278p4j1m"]
 
 [ext_resource type="Script" uid="uid://db7lmjpcy47nb" path="res://scripts/player.gd" id="1_g2els"]
+[ext_resource type="Script" uid="uid://dmniq2pq5hh5v" path="res://resources/player_statistics_resource.gd" id="2_dqkch"]
 [ext_resource type="Texture2D" uid="uid://05wky3yd333h" path="res://graphics/player.png" id="2_qhqgy"]
+[ext_resource type="Script" uid="uid://p1mycihdlmi1" path="res://scripts/hurt_area_2d.gd" id="3_qhqgy"]
+
+[sub_resource type="Resource" id="Resource_qlg0r"]
+script = ExtResource("2_dqkch")
+metadata/_custom_type_script = "uid://dmniq2pq5hh5v"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g4v7s"]
 height = 60.0
 
 [node name="Player" type="CharacterBody2D" unique_id=207911696]
 collision_layer = 5
+collision_mask = 2
 script = ExtResource("1_g2els")
+stats = SubResource("Resource_qlg0r")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1339418698]
 scale = Vector2(0.33, 0.33)
@@ -17,4 +25,14 @@ texture = ExtResource("2_qhqgy")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1067712728]
 shape = SubResource("CapsuleShape2D_g4v7s")
 
+[node name="HurtArea2D" type="Area2D" parent="." unique_id=1381635548]
+collision_layer = 0
+collision_mask = 7
+script = ExtResource("3_qhqgy")
+metadata/_custom_type_script = "uid://p1mycihdlmi1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea2D" unique_id=65250185]
+shape = SubResource("CapsuleShape2D_g4v7s")
+
 [connection signal="existed" from="." to="." method="_on_existed"]
+[connection signal="took_damage" from="HurtArea2D" to="." method="_on_hurt_area_2d_took_damage"]
