@@ -37,6 +37,8 @@ func _input(event: InputEvent) -> void:
 		print("attacked with " + str(attack_damage) + " damage")
 	
 
-func _on_hurt_area_2d_took_damage(amount: int) -> void:
-	health = health-amount
-	print(health)
+func _on_hurt_area_2d_area_entered(hit_area: HitArea2D) -> void:
+	print("entered hit area")
+	health = health - hit_area.damage
+	print("took " + str(hit_area.damage) + " damage")
+	print ("you have "+ str(health) + " HP left")
