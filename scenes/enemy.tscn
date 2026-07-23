@@ -1,30 +1,98 @@
 [gd_scene format=3 uid="uid://bcg6mgweh7kt4"]
 
+[ext_resource type="Script" uid="uid://c3h8tn5tx3uqw" path="res://scenes/enemy_using_states.gd" id="1_5uy6h"]
 [ext_resource type="Texture2D" uid="uid://4m67v7bljneu" path="res://graphics/enemy.png" id="1_7k104"]
-[ext_resource type="Script" uid="uid://24m5tuqwwf5y" path="res://scripts/enemy.gd" id="1_md0e3"]
-[ext_resource type="Script" uid="uid://2mabn00iuak3" path="res://scripts/hit_area_2d.gd" id="3_4ra3w"]
+[ext_resource type="Script" uid="uid://cdsttcke8u0oq" path="res://resources/EnemyIdle.gd" id="3_4ra3w"]
+[ext_resource type="Script" uid="uid://dgc4m0xkhubfc" path="res://scenes/state_machine.gd" id="3_c4w8v"]
+[ext_resource type="Script" uid="uid://dls1canc3avxp" path="res://resources/EnemyFollow.gd" id="5_c4w8v"]
+[ext_resource type="Script" uid="uid://drd6mras2ruji" path="res://resources/EnemyAttack.gd" id="6_xwavj"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g4v7s"]
 radius = 11.0
 height = 64.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4v7s"]
+bg_color = Color(0.6, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yf5fn"]
+bg_color = Color(0, 0.6, 0, 1)
+
+[sub_resource type="Animation" id="Animation_4ra3w"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_5uy6h"]
+resource_name = "attack"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.23333333, 0.33333334, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.15707964, 0.17453292519943295, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c4w8v"]
+_data = {
+&"RESET": SubResource("Animation_4ra3w"),
+&"attack": SubResource("Animation_5uy6h")
+}
+
 [node name="Enemy" type="CharacterBody2D" unique_id=335124755]
-collision_mask = 0
-script = ExtResource("1_md0e3")
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_5uy6h")
+
+[node name="StateMachine" type="Node" parent="." unique_id=2028512283 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_c4w8v")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" unique_id=2021311381 node_paths=PackedStringArray("character")]
+script = ExtResource("3_4ra3w")
+character = NodePath("../..")
+
+[node name="Follow" type="Node" parent="StateMachine" unique_id=2050223069 node_paths=PackedStringArray("character")]
+script = ExtResource("5_c4w8v")
+character = NodePath("../..")
+
+[node name="Attack" type="Node" parent="StateMachine" unique_id=2066216644 node_paths=PackedStringArray("character")]
+script = ExtResource("6_xwavj")
+character = NodePath("../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1453567473]
 shape = SubResource("CapsuleShape2D_g4v7s")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1060864298]
+position = Vector2(-2.019484e-28, -2.524355e-29)
 scale = Vector2(0.33, 0.33)
 texture = ExtResource("1_7k104")
-offset = Vector2(21, 0)
+offset = Vector2(20.999996, -1.7917517e-06)
 
-[node name="HitArea2D" type="Area2D" parent="." unique_id=28542323]
-collision_layer = 2
-collision_mask = 0
-script = ExtResource("3_4ra3w")
-metadata/_custom_type_script = "uid://2mabn00iuak3"
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1619490634]
+offset_left = -21.0
+offset_top = 33.0
+offset_right = 22.0
+offset_bottom = 38.0
+theme_override_styles/background = SubResource("StyleBoxFlat_g4v7s")
+theme_override_styles/fill = SubResource("StyleBoxFlat_yf5fn")
+value = 73.0
+show_percentage = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea2D" unique_id=181939666]
-shape = SubResource("CapsuleShape2D_g4v7s")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=817656996]
+libraries/ = SubResource("AnimationLibrary_c4w8v")

@@ -3,16 +3,135 @@
 [ext_resource type="Script" uid="uid://db7lmjpcy47nb" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="Script" uid="uid://dmniq2pq5hh5v" path="res://resources/player_statistics_resource.gd" id="2_dqkch"]
 [ext_resource type="Texture2D" uid="uid://05wky3yd333h" path="res://graphics/player.png" id="2_qhqgy"]
-[ext_resource type="Script" uid="uid://p1mycihdlmi1" path="res://scripts/hurt_area_2d.gd" id="3_qhqgy"]
+[ext_resource type="Texture2D" uid="uid://bvts504iob4wk" path="res://graphics/blood.png" id="5_qlg0r"]
 
 [sub_resource type="Resource" id="Resource_qlg0r"]
 script = ExtResource("2_dqkch")
+speed = 250.0
+attack_damage = 4.0
 metadata/_custom_type_script = "uid://dmniq2pq5hh5v"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g4v7s"]
 height = 60.0
 
-[node name="Player" type="CharacterBody2D" unique_id=207911696]
+[sub_resource type="Animation" id="Animation_dqkch"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.33, 0.33)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_qlg0r"]
+resource_name = "take_dmg"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.33, 0.33), Vector2(0.4, 0.4), Vector2(0.33, 0.33)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.05001158, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.10471976, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_tuyoq"]
+resource_name = "walk"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.034906585, 0.03490658503988659]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tuyoq"]
+_data = {
+&"RESET": SubResource("Animation_dqkch"),
+&"take_dmg": SubResource("Animation_qlg0r"),
+&"walk": SubResource("Animation_tuyoq")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1n03l"]
+bg_color = Color(1, 0, 0, 1)
+shadow_size = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4cgjx"]
+bg_color = Color(0, 1, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.6313726, 0, 1)
+shadow_size = 2
+
+[node name="Player" type="CharacterBody2D" unique_id=207911696 groups=["Player"]]
+collision_layer = 2
 script = ExtResource("1_g2els")
 stats = SubResource("Resource_qlg0r")
 
@@ -23,12 +142,45 @@ texture = ExtResource("2_qhqgy")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1067712728]
 shape = SubResource("CapsuleShape2D_g4v7s")
 
-[node name="HurtArea2D" type="Area2D" parent="." unique_id=1381635548]
-script = ExtResource("3_qhqgy")
-metadata/_custom_type_script = "uid://p1mycihdlmi1"
+[node name="DashTimer" type="Timer" parent="." unique_id=1705771000]
+wait_time = 0.5
+one_shot = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea2D" unique_id=65250185]
-shape = SubResource("CapsuleShape2D_g4v7s")
+[node name="Cursor" type="Sprite2D" parent="." unique_id=1297813477]
 
-[connection signal="existed" from="." to="." method="_on_existed"]
-[connection signal="area_entered" from="HurtArea2D" to="." method="_on_hurt_area_2d_area_entered"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1011713629]
+libraries/ = SubResource("AnimationLibrary_tuyoq")
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=425103552]
+anchors_preset = -1
+anchor_right = 1.0
+offset_left = -21.769997
+offset_top = -49.0
+offset_right = 23.0
+offset_bottom = -41.0
+grow_horizontal = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_1n03l")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4cgjx")
+value = 100.0
+rounded = true
+show_percentage = false
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=1604228023]
+texture_filter = 2
+emitting = false
+amount = 100
+texture = ExtResource("5_qlg0r")
+emission_shape = 1
+emission_sphere_radius = 15.0
+particle_flag_align_y = true
+direction = Vector2(0, 0)
+spread = 180.0
+initial_velocity_max = 200.0
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+
+[node name="DeathTimer" type="Timer" parent="." unique_id=1400723463]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]

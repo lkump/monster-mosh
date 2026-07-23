@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://bpt3nlyn4ags0"]
+
+[ext_resource type="Script" uid="uid://db7lmjpcy47nb" path="res://scripts/player.gd" id="1_af6ls"]
+[ext_resource type="Script" uid="uid://dmniq2pq5hh5v" path="res://resources/player_statistics_resource.gd" id="2_jqlyw"]
+[ext_resource type="Texture2D" uid="uid://05wky3yd333h" path="res://graphics/player.png" id="3_7i46r"]
+[ext_resource type="Script" uid="uid://p1mycihdlmi1" path="res://scripts/hurt_area_2d.gd" id="4_4ufi1"]
+
+[sub_resource type="Resource" id="Resource_qlg0r"]
+script = ExtResource("2_jqlyw")
+metadata/_custom_type_script = "uid://dmniq2pq5hh5v"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c3ouy"]
+radius = 14.035668
+
+[node name="Player" type="CharacterBody2D" unique_id=207911696]
+script = ExtResource("1_af6ls")
+stats = SubResource("Resource_qlg0r")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1339418698]
+position = Vector2(0, -28)
+scale = Vector2(0.33, 0.33)
+texture = ExtResource("3_7i46r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1067712728]
+shape = SubResource("CircleShape2D_c3ouy")
+
+[node name="HurtArea2D" type="Area2D" parent="." unique_id=1381635548]
+script = ExtResource("4_4ufi1")
+metadata/_custom_type_script = "uid://p1mycihdlmi1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea2D" unique_id=1012035908]
+shape = SubResource("CircleShape2D_c3ouy")
+
+[connection signal="existed" from="." to="." method="_on_existed"]
+[connection signal="area_entered" from="HurtArea2D" to="." method="_on_hurt_area_2d_area_entered"]

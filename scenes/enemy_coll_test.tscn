@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cxwa67la2dm3h"]
+
+[ext_resource type="Script" uid="uid://24m5tuqwwf5y" path="res://scripts/enemy.gd" id="1_3aan8"]
+[ext_resource type="Texture2D" uid="uid://4m67v7bljneu" path="res://graphics/enemy.png" id="2_c3ouy"]
+[ext_resource type="Script" uid="uid://2mabn00iuak3" path="res://scripts/hit_area_2d.gd" id="3_cxeav"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g4v7s"]
+radius = 14.035668
+
+[node name="Enemy" type="CharacterBody2D" unique_id=335124755]
+collision_mask = 0
+script = ExtResource("1_3aan8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1453567473]
+shape = SubResource("CircleShape2D_g4v7s")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1060864298]
+position = Vector2(0, -29)
+scale = Vector2(0.33, 0.33)
+texture = ExtResource("2_c3ouy")
+offset = Vector2(21, 0)
+
+[node name="HitArea2D" type="Area2D" parent="." unique_id=28542323]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("3_cxeav")
+metadata/_custom_type_script = "uid://2mabn00iuak3"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea2D" unique_id=2074346840]
+shape = SubResource("CircleShape2D_g4v7s")

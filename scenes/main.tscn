@@ -1,28 +1,99 @@
 [gd_scene format=3 uid="uid://b8g7cm40i6y52"]
 
 [ext_resource type="PackedScene" uid="uid://eiqh278p4j1m" path="res://scenes/player.tscn" id="1_0wfyh"]
-[ext_resource type="PackedScene" uid="uid://bcg6mgweh7kt4" path="res://scenes/enemy.tscn" id="2_sugp2"]
-[ext_resource type="Script" uid="uid://2mabn00iuak3" path="res://scripts/hit_area_2d.gd" id="3_sugp2"]
+[ext_resource type="Script" uid="uid://c1eneyma2xjfs" path="res://scenes/main.gd" id="1_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://fql3uh1pvm6b" path="res://graphics/ground.png" id="3_sugp2"]
+[ext_resource type="Texture2D" uid="uid://chav8oyf443ic" path="res://graphics/stage.png" id="4_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://dfkrpx0j3l6kb" path="res://graphics/fence.png" id="5_tbgi4"]
+[ext_resource type="Script" uid="uid://ctmoyciet3ahm" path="res://scenes/on_stage.gd" id="6_85g3d"]
+[ext_resource type="Texture2D" uid="uid://bp1o3mcsrv68r" path="res://graphics/right_speaker.png" id="7_choun"]
+[ext_resource type="Texture2D" uid="uid://dixfdmkudglhx" path="res://graphics/left_speaker.png" id="8_ya4ey"]
+[ext_resource type="Texture2D" uid="uid://ic3j635hut4p" path="res://graphics/band.png" id="9_eb6dy"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_g4v7s"]
-radius = 115.0
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_g4v7s"]
 
-[node name="Main" type="Node" unique_id=1705928078]
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_sugp2"]
+normal = Vector2(1, 0)
 
-[node name="Enemy" parent="." unique_id=335124755 instance=ExtResource("2_sugp2")]
-position = Vector2(299, 331)
-collision_layer = 0
-collision_mask = 1
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jyhfs"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_tbgi4"]
+normal = Vector2(4.371137e-08, 1)
+distance = 1.0000265
+
+[node name="Main" type="Node2D" unique_id=1709473292]
+script = ExtResource("1_jyhfs")
+metadata/_edit_horizontal_guides_ = [174.0]
 
 [node name="Player" parent="." unique_id=207911696 instance=ExtResource("1_0wfyh")]
-position = Vector2(611, 331)
+z_index = 1
+position = Vector2(364, 331)
 
-[node name="HitArea2D" type="Area2D" parent="." unique_id=1471795620]
-position = Vector2(468, 213)
-collision_layer = 15
-collision_mask = 15
-script = ExtResource("3_sugp2")
-metadata/_custom_type_script = "uid://2mabn00iuak3"
+[node name="EnemyTimer" type="Timer" parent="." unique_id=1832316308]
+wait_time = 2.0
+autostart = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea2D" unique_id=707767210]
-shape = SubResource("CircleShape2D_g4v7s")
+[node name="World" type="Node2D" parent="." unique_id=296933933]
+
+[node name="WorldBoundaries" type="StaticBody2D" parent="World" unique_id=791504815]
+collision_mask = 0
+
+[node name="TopBorder" type="CollisionShape2D" parent="World/WorldBoundaries" unique_id=177017035]
+position = Vector2(0, 166)
+rotation = 3.1415927
+shape = SubResource("WorldBoundaryShape2D_g4v7s")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="World/WorldBoundaries" unique_id=1012734147]
+position = Vector2(0, 154)
+shape = SubResource("WorldBoundaryShape2D_sugp2")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="World/WorldBoundaries" unique_id=2126024114]
+position = Vector2(489, 481)
+shape = SubResource("WorldBoundaryShape2D_jyhfs")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="World/WorldBoundaries" unique_id=1334629435]
+position = Vector2(642, 0)
+rotation = 1.5707964
+shape = SubResource("WorldBoundaryShape2D_tbgi4")
+
+[node name="Ground" type="Sprite2D" parent="World" unique_id=1259261788]
+modulate = Color(0.6410262, 0.61031765, 0.55374825, 1)
+z_index = -2
+position = Vector2(342.00003, 282)
+scale = Vector2(1.1074073, 0.64074075)
+texture = ExtResource("3_sugp2")
+
+[node name="Stage" type="Sprite2D" parent="World" unique_id=1348010398]
+z_index = -1
+position = Vector2(328.00003, 49.999992)
+scale = Vector2(0.455, 0.455)
+texture = ExtResource("4_jyhfs")
+
+[node name="Fence" type="Sprite2D" parent="World" unique_id=1156689839]
+z_index = -1
+position = Vector2(325, 154)
+scale = Vector2(0.405, 0.405)
+texture = ExtResource("5_tbgi4")
+
+[node name="OnStage" type="Node2D" parent="World" unique_id=856044841]
+position = Vector2(-3.0517578e-05, -1.5258789e-05)
+scale = Vector2(1.0000001, 1.0000001)
+script = ExtResource("6_85g3d")
+
+[node name="RightSpeaker" type="Sprite2D" parent="World/OnStage" unique_id=639300408]
+position = Vector2(483, 62)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("7_choun")
+
+[node name="LeftSpeaker" type="Sprite2D" parent="World/OnStage" unique_id=1183632289]
+position = Vector2(166, 62)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("8_ya4ey")
+
+[node name="Band" type="Sprite2D" parent="World/OnStage" unique_id=2024040253]
+position = Vector2(322, 38)
+scale = Vector2(0.435, 0.435)
+texture = ExtResource("9_eb6dy")
+
+[connection signal="died" from="Player" to="." method="_on_player_died"]
+[connection signal="timeout" from="EnemyTimer" to="." method="_on_enemy_timer_timeout"]
